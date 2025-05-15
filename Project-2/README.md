@@ -37,10 +37,69 @@ Even though adding threads increases the amount of work that can be done in para
 
 ![Speed-up vs Threads](speedup.png)
 
-###### Question: Do you think it’s possible to get “perfect scaling” — meaning that the (1-p) terms is zero?
+###### Question: Do you think it’s possible to get “perfect scaling” — meaning that the (1-p) terms is zero? 
+In theory, if **every** instruction in your program could be parallelized (i.e. \(p=1\)), Amdahl’s law gives
+
+\[
+\text{speed-up} = \frac{1}{(1 - p) + \frac{p}{n}}
+= \frac{1}{0 + \tfrac{1}{n}}
+= n.
+\]
+
+That would be perfect linear scaling.  
+However, in any real program there is always some serial work (thread setup, synchronization, I/O, reductions, etc.) and unavoidable contention for shared resources (locks, memory bandwidth). These factors make \(1-p>0\) in practice, so **perfect scaling is unattainable** on real hardware.
+
+---
 
 ###### Question: For your own timings, compute your expected speed-up for 16 cores. 
+From your example timings:
+- Serial time \(T_{\text{serial}} = 0.0111 + 0.1464 = 0.1575\) s  
+- Total time \(T_{\text{total}} = 14.316\) s  
+
+Thus the serial fraction is
+
+\[
+s = \frac{T_{\text{serial}}}{T_{\text{total}}}
+\approx \frac{0.1575}{14.316} \approx 0.0110,
+\quad
+p = 1 - s \approx 0.9890.
+\]
+
+Plug into Amdahl’s law for \(n=16\):
+
+\[
+\text{speed-up}_{16}
+= \frac{1}{(1 - p) + \tfrac{p}{16}}
+= \frac{1}{0.0110 + \tfrac{0.9890}{16}}
+\approx 12.6.
+\]
+
+So you’d predict roughly a **12.6×** speed-up on 16 cores.
+
+---
 
 ![Speed-up vs Threads](Runtimes.png)
 
 ######  Question: in reviewing the graph of speed-ups to number of threads, note that we get pretty linear (when you plot the dots, they’re pretty close to being a line) speed-up. What’s the slope of that line? (Pick two values, like for one and seven threads, and do the rise-over-run thing you learned in Algebra). Does that linear trend continue as we add more threads? What do you think causes the curve to “flatten out” when we use large thread counts?
+
+1. **Slope estimate**  
+   Pick two points, e.g.  
+   - 1 thread: \(T_1=14.3\) s ⇒ speed-up \(S_1 = 1\)  
+   - 7 threads: \(T_7=2.9\) s ⇒ speed-up \(S_7 = 14.3/2.9 \approx 4.93\)  
+
+   Then
+   \[
+   \text{slope} \approx \frac{S_7 - S_1}{7 - 1}
+   = \frac{4.93 - 1}{6}
+   \approx 0.66\quad\text{(× speed-up per thread)}.
+   \]
+
+2. **Does the linear trend continue?**  
+   No. Beyond about 8–16 threads, additional threads yield **diminishing returns** and the curve “bends over.”
+
+3. **Why does it flatten?**  
+   - **Synchronization overhead:** more threads ⇒ more time in locks and barriers  
+   - **Memory bandwidth limits:** threads compete for DRAM and cache  
+   - **OS scheduling overhead:** context switches and thread management  
+
+   All of these increase the effective serial fraction and reduce the benefit of each extra core.
