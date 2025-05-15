@@ -28,4 +28,4 @@ n
 |80| 1.99|16.92|21.54| 8.81|
 
 
-![Speed-up vs Threads](Project-2/speedup.png)
+![Speed-up vs Threads](speedup.png)
