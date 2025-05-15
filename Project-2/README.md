@@ -29,3 +29,13 @@ n
 
 
 ![Speed-up vs Threads](speedup.png)
+
+## Discussion
+
+Although adding threads speeds up the parallel portion of our hash computation, overall gains plateau (and can even dip) as we add more cores. According to Amdahl’s Law, any fraction **s** of work that must run serially bounds the maximum speed-up:
+
+$$
+\text{speed-up}_{\max} = \frac{1}{\,s + \frac{1 - s}{n}\,}.
+$$
+
+No matter how many threads you spawn, that serial work and the overhead of thread management and synchronization become the bottleneck—just like a turnstile at Disney World: a crowd of people still passes one at a time.  
