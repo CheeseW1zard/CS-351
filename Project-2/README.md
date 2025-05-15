@@ -31,6 +31,13 @@ No matter how many threads you spawn, that serial work and the overhead of threa
 |72| 1.94|17.15|25.93| 9.04|
 |80| 1.99|16.92|21.54| 8.81|
 
+###### Question 1
+Notice that there is a maximum speed-up factor, but not necessarily using the most threads. Make a guess (i.e., write a short paragraph) as to why you think more threads aren’t necessary better. Here’s a hint: think about a group of people waiting to go through a turnstile (like at BART or Disney World). Are more people able to go through it just because there are more people?
+
+Even though adding threads increases the amount of work that can be done in parallel, there comes a point where throwing on more “workers” actually stops improving, or even hurts, performance. That’s because there’s still some serial work (and synchronization) that every thread must wait for—just like a group of people queued up at a single turnstile: piling more people behind the gate doesn’t make them go through any faster, it just makes the line longer. In our program the “turnstile” is the code that’s not threaded (plus the mutex locks around the shared data and the cost of scheduling dozens of threads), so once you hit the point where the parallel portion is fully saturated, extra threads only add contention and overhead, flattening out the speed-up curve.
+
+
+## Graph speed-up vs. thread count
 
 ![Speed-up vs Threads](speedup.png)
 
