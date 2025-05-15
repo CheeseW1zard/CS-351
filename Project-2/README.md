@@ -85,8 +85,9 @@ So you’d predict roughly a **12.6×** speed-up on 16 cores.
 
 1. **Slope estimate**  
    Pick two points, e.g.  
-   - 1 thread: \(T_1=14.3\) s ⇒ speed-up \(S_1 = 1\)  
-   - 7 threads: \(T_7=2.9\) s ⇒ speed-up \(S_7 = 14.3/2.9 \approx 4.93\)  
+   - 1 thread: $\(T_1=14.3\)$ s ⇒ speed-up \(S_1 = 1\$
+   - 7 threads: $\(T_7=2.9\)$ s ⇒ speed-up \(S_7 = 14.3/2.9 \approx 4.93\)$
+
 
    Then
    $$
