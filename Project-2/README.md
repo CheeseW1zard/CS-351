@@ -7,10 +7,6 @@ Although adding threads speeds up the parallel portion of our hash computation, 
 $$
 \text{speed-up}_{\max} = \frac{1}{\,s + \frac{1 - s}{n}\,}.
 $$
-
-No matter how many threads you spawn, that serial work and the overhead of thread management and synchronization become the bottleneck—just like a turnstile at Disney World: a crowd of people still passes one at a time.  
-
- is the number of threads.
 | Thread Count | Wall Clock Time | User Time | System Time | Speed- up | 
 ------------- |:-------------:|------------- |:-------------: |-------------|
 |1|17.54|14.02| 0.89|1.00|
