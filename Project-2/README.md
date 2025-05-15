@@ -40,11 +40,12 @@ Even though adding threads increases the amount of work that can be done in para
 ###### Question: Do you think it’s possible to get “perfect scaling” — meaning that the (1-p) terms is zero? 
 In theory, if **every** instruction in your program could be parallelized (i.e. \(p=1\)), Amdahl’s law gives
 
-\[
+$$
 \text{speed-up} = \frac{1}{(1 - p) + \frac{p}{n}}
 = \frac{1}{0 + \tfrac{1}{n}}
 = n.
-\]
+
+$$
 
 That would be perfect linear scaling.  
 However, in any real program there is always some serial work (thread setup, synchronization, I/O, reductions, etc.) and unavoidable contention for shared resources (locks, memory bandwidth). These factors make \(1-p>0\) in practice, so **perfect scaling is unattainable** on real hardware.
@@ -58,21 +59,21 @@ From your example timings:
 
 Thus the serial fraction is
 
-\[
+$$
 s = \frac{T_{\text{serial}}}{T_{\text{total}}}
 \approx \frac{0.1575}{14.316} \approx 0.0110,
 \quad
 p = 1 - s \approx 0.9890.
-\]
+$$
 
 Plug into Amdahl’s law for \(n=16\):
 
-\[
+$$
 \text{speed-up}_{16}
 = \frac{1}{(1 - p) + \tfrac{p}{16}}
 = \frac{1}{0.0110 + \tfrac{0.9890}{16}}
 \approx 12.6.
-\]
+$$
 
 So you’d predict roughly a **12.6×** speed-up on 16 cores.
 
@@ -88,16 +89,16 @@ So you’d predict roughly a **12.6×** speed-up on 16 cores.
    - 7 threads: \(T_7=2.9\) s ⇒ speed-up \(S_7 = 14.3/2.9 \approx 4.93\)  
 
    Then
-   \[
+   $$
    \text{slope} \approx \frac{S_7 - S_1}{7 - 1}
    = \frac{4.93 - 1}{6}
    \approx 0.66\quad\text{(× speed-up per thread)}.
-   \]
+   $$
 
-2. **Does the linear trend continue?**  
+3. **Does the linear trend continue?**  
    No. Beyond about 8–16 threads, additional threads yield **diminishing returns** and the curve “bends over.”
 
-3. **Why does it flatten?**  
+4. **Why does it flatten?**  
    - **Synchronization overhead:** more threads ⇒ more time in locks and barriers  
    - **Memory bandwidth limits:** threads compete for DRAM and cache  
    - **OS scheduling overhead:** context switches and thread management  
