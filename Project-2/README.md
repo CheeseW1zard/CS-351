@@ -41,6 +41,6 @@ Even though adding threads increases the amount of work that can be done in para
 
 ###### Question: For your own timings, compute your expected speed-up for 16 cores. 
 
-![Speed-up vs Threads](Runetimes.png)
+![Speed-up vs Threads](Runtimes.png)
 
 ######  Question: in reviewing the graph of speed-ups to number of threads, note that we get pretty linear (when you plot the dots, they’re pretty close to being a line) speed-up. What’s the slope of that line? (Pick two values, like for one and seven threads, and do the rise-over-run thing you learned in Algebra). Does that linear trend continue as we add more threads? What do you think causes the curve to “flatten out” when we use large thread counts?
